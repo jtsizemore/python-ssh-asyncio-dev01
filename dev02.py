@@ -3,8 +3,9 @@
 Dev for paramiko asyncio
 """
 
-import concurrent.futures as cfut
+import concurrent.futures
 import paramiko
+import typing
 import time
 
 
@@ -19,7 +20,7 @@ d2 = {
     "hostname": "192.168.100.2",
     "username": "cisco",
     "password": "cisco",
-    "cli_cmd": "show interface description",
+    "cli_cmd": "show ip route",
 }
 d3 = {
     "hostname": "192.168.100.3",
@@ -27,11 +28,29 @@ d3 = {
     "password": "cisco",
     "cli_cmd": "show ip interface brief",
 }
+d4 = {
+    "hostname": "192.168.100.4",
+    "username": "cisco",
+    "password": "cisco",
+    "cli_cmd": "show clock",
+}
+d5 = {
+    "hostname": "192.168.100.5",
+    "username": "cisco",
+    "password": "cisco",
+    "cli_cmd": "show ip route",
+}
+d6 = {
+    "hostname": "192.168.100.6",
+    "username": "cisco",
+    "password": "cisco",
+    "cli_cmd": "show ip interface brief",
+}
 
-l = [d1, d2, d3]
+l = [d1, d2, d3, d4, d5, d6,]
 
 
-def main(input_dict):
+def ssh_connect(input_dict: dict) -> bytes:
     """
     Dev
     """
@@ -48,15 +67,30 @@ def main(input_dict):
     ssh_client.close()
     ssh_output_bytes = stdout.read()
 
-    print(len(ssh_output_bytes))
+    h = input_dict['hostname'].replace('.', '_')
+    d = {'hostname': h, 'cli_output': ssh_output_bytes}
 
-    # return ssh_output_bytes
+    return d
+
+
+def write_file(input_dict, write_mode: str = 'w') -> None:
+    file_name = f"{input_dict['hostname']}.txt"
+    cli_output = input_dict['cli_output'].decode('utf-8')
+    with open(file_name, write_mode) as f:
+        f.write(cli_output)
 
 
 if __name__ == '__main__':
-    t_start = time.time()
+    t_start1 = time.time()
 
-    with cfut.ThreadPoolExecutor() as p:
-        p.map(main, l)
+    with concurrent.futures.ThreadPoolExecutor() as tpe1:
+        r = tpe1.map(ssh_connect, l)
     
-    print(time.time() - t_start)
+    print(time.time() - t_start1)
+    t_start2 = time.time()
+
+    with concurrent.futures.ThreadPoolExecutor() as tpe2:
+        tpe2.map(write_file, r)
+    
+    print(time.time() - t_start2)
+    print(time.time() - t_start1)
