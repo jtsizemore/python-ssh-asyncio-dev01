@@ -3,6 +3,7 @@
 Dev for paramiko asyncio
 """
 
+import concurrent.futures as cfut
 import paramiko
 import time
 
@@ -46,6 +47,7 @@ def main(input_dict):
     time.sleep(5)
     ssh_client.close()
     ssh_output_bytes = stdout.read()
+
     print(len(ssh_output_bytes))
 
     # return ssh_output_bytes
@@ -54,7 +56,7 @@ def main(input_dict):
 if __name__ == '__main__':
     t_start = time.time()
 
-    for d in l:
-        main(d)
+    with cfut.ThreadPoolExecutor() as p:
+        p.map(main, l)
     
     print(time.time() - t_start)
