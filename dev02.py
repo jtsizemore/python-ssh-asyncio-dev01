@@ -7,72 +7,7 @@ import concurrent.futures
 import paramiko
 import typing
 import time
-
-
-
-d1 = {
-    "hostname": "192.168.100.1",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show clock",
-}
-d2 = {
-    "hostname": "192.168.100.2",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show ip route",
-}
-d3 = {
-    "hostname": "192.168.100.3",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show ip interface brief",
-}
-d4 = {
-    "hostname": "192.168.100.4",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show clock",
-}
-d5 = {
-    "hostname": "192.168.100.5",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show ip route",
-}
-d6 = {
-    "hostname": "192.168.100.6",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show ip interface brief",
-}
-
-d7 = {
-    "hostname": "192.168.100.7",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show clock",
-}
-d8 = {
-    "hostname": "192.168.100.8",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show ip route",
-}
-d9 = {
-    "hostname": "192.168.100.9",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show ip interface brief",
-}
-d10 = {
-    "hostname": "192.168.100.10",
-    "username": "cisco",
-    "password": "cisco",
-    "cli_cmd": "show ip route",
-}
-
-l = [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10,]
+import yaml
 
 
 def ssh_connect(input_dict: dict) -> bytes:
@@ -98,15 +33,29 @@ def ssh_connect(input_dict: dict) -> bytes:
     return d
 
 
-def write_file(input_dict, write_mode: str = 'w') -> None:
-    file_name = f"{input_dict['hostname']}.txt"
+def write_file(input_dict, file_path="no_git_tmp", write_mode: str = 'w') -> None:
+    """
+    Dev
+    """
+    file_name = f"{file_path}/{input_dict['hostname']}.txt"
     cli_output = input_dict['cli_output'].decode('utf-8')
     with open(file_name, write_mode) as f:
         f.write(cli_output)
 
 
+def yaml_func(input_file, file_mode="r"):
+    """
+    Dev
+    """
+    with open(input_file, file_mode) as f:
+        s = f.read()
+    return yaml.safe_load(s)
+
+
 if __name__ == '__main__':
     t_start1 = time.time()
+
+    l = yaml_func("network-device.yaml")
 
     with concurrent.futures.ThreadPoolExecutor() as p:
         r = p.map(ssh_connect, l)

@@ -1,0 +1,43 @@
+# network device seed file for python script dev02.py
+---
+- hostname: 192.168.100.1
+  username: cisco
+  password: cisco
+  cli_cmd: show clock
+- hostname: 192.168.100.2
+  username: cisco
+  password: cisco
+  cli_cmd: show ip route
+- hostname: 192.168.100.3
+  username: cisco
+  password: cisco
+  cli_cmd: show ip interface brief
+- hostname: 192.168.100.4
+  username: cisco
+  password: cisco
+  cli_cmd: show clock
+- hostname: 192.168.100.5
+  username: cisco
+  password: cisco
+  cli_cmd: show ip route
+- hostname: 192.168.100.6
+  username: cisco
+  password: cisco
+  cli_cmd: show ip interface brief
+- hostname: 192.168.100.7
+  username: cisco
+  password: cisco
+  cli_cmd: show clock
+- hostname: 192.168.100.8
+  username: cisco
+  password: cisco
+  cli_cmd: show ip route
+- hostname: 192.168.100.9
+  username: cisco
+  password: cisco
+  cli_cmd: show ip interface brief
+- hostname: 192.168.100.10
+  username: cisco
+  password: cisco
+  cli_cmd: show ip route
+...
