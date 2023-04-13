@@ -33,7 +33,7 @@ def ssh_connect(input_dict: dict) -> bytes:
     return d
 
 
-def write_file(input_dict, file_path="no_git_tmp", write_mode: str = 'w') -> None:
+def write_file(input_dict: str, file_path: str='no_git_tmp', write_mode: str='w') -> None:
     """
     Dev
     """
@@ -43,7 +43,7 @@ def write_file(input_dict, file_path="no_git_tmp", write_mode: str = 'w') -> Non
         f.write(cli_output)
 
 
-def yaml_func(input_file, file_mode="r"):
+def yaml_func(input_file: str, file_mode: str='r'):
     """
     Dev
     """
