@@ -47,7 +47,32 @@ d6 = {
     "cli_cmd": "show ip interface brief",
 }
 
-l = [d1, d2, d3, d4, d5, d6,]
+d7 = {
+    "hostname": "192.168.100.7",
+    "username": "cisco",
+    "password": "cisco",
+    "cli_cmd": "show clock",
+}
+d8 = {
+    "hostname": "192.168.100.8",
+    "username": "cisco",
+    "password": "cisco",
+    "cli_cmd": "show ip route",
+}
+d9 = {
+    "hostname": "192.168.100.9",
+    "username": "cisco",
+    "password": "cisco",
+    "cli_cmd": "show ip interface brief",
+}
+d10 = {
+    "hostname": "192.168.100.10",
+    "username": "cisco",
+    "password": "cisco",
+    "cli_cmd": "show ip route",
+}
+
+l = [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10,]
 
 
 def ssh_connect(input_dict: dict) -> bytes:
@@ -83,14 +108,14 @@ def write_file(input_dict, write_mode: str = 'w') -> None:
 if __name__ == '__main__':
     t_start1 = time.time()
 
-    with concurrent.futures.ThreadPoolExecutor() as tpe1:
-        r = tpe1.map(ssh_connect, l)
+    with concurrent.futures.ThreadPoolExecutor() as p:
+        r = p.map(ssh_connect, l)
     
     print(time.time() - t_start1)
     t_start2 = time.time()
 
-    with concurrent.futures.ThreadPoolExecutor() as tpe2:
-        tpe2.map(write_file, r)
+    with concurrent.futures.ThreadPoolExecutor() as p:
+        p.map(write_file, r)
     
     print(time.time() - t_start2)
     print(time.time() - t_start1)
