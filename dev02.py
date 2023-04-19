@@ -5,9 +5,11 @@ Dev for paramiko asyncio
 
 import concurrent.futures
 import paramiko
+import argparse
 import typing
 import time
 import yaml
+import re
 
 
 def ssh_connect(input_dict: dict) -> bytes:
@@ -52,7 +54,26 @@ def yaml_func(input_file: str, file_mode: str='r'):
     return yaml.safe_load(s)
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    'file', help='fully qualified/absolute path to input Yaml file'
+    )
+args = parser.parse_args()
+argparse_error_msg = \
+'\nInvalid File Extension {}. Must be "yaml" or "yml" (case insensitive).'
+error_str = '{}{}{}'.format('"', args.file.split('.')[-1], '"')
+
+r_str = r"^(\w|\-|/|\.|\:|\s)+(\w|\-|/|\.|\:|\s)*\.(yaml|yml)$"
+r = re.compile(r_str, re.IGNORECASE)
+
+
 if __name__ == '__main__':
+    if r.match(args.file):
+        print(f"Input File Path: {args.file}")
+    else:
+        parser.error(argparse_error_msg.format(error_str))
+
+
     t_start1 = time.time()
 
     l = yaml_func("network-device.yaml")
