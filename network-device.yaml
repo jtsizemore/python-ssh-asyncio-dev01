@@ -1,43 +1,75 @@
 # network device seed file for python script dev02.py
 ---
-- hostname: 192.168.100.1
+- channel_mode: exec_command
+  hostname: 192.168.100.1
   username: cisco
   password: cisco
-  cli_cmd: show clock
-- hostname: 192.168.100.2
+  cli_cmd:
+    - show clock
+  output_dir: ./no_git_tmp
+- channel_mode: exec_command
+  hostname: 192.168.100.2
   username: cisco
   password: cisco
-  cli_cmd: show ip route
-- hostname: 192.168.100.3
+  cli_cmd:
+    - show ip route
+  output_dir: ./no_git_tmp
+- channel_mode: exec_command
+  hostname: 192.168.100.3
   username: cisco
   password: cisco
-  cli_cmd: show ip interface brief
-# - hostname: 192.168.100.4
+  cli_cmd:
+    - show ip interface brief
+  output_dir: ./no_git_tmp
+# - channel_mode: invoke_shell
+#   hostname: 192.168.100.4
 #   username: cisco
 #   password: cisco
-#   cli_cmd: show clock
-# - hostname: 192.168.100.5
+#   cli_cmd:
+#     - show clock
+#     - show ip route
+#     - show ip interface brief
+#   output_dir: ./no_git_tmp
+# - channel_mode: invoke_shell
+#   hostname: 192.168.100.5
 #   username: cisco
 #   password: cisco
-#   cli_cmd: show ip route
-# - hostname: 192.168.100.6
+#   cli_cmd:
+#     - show ip route
+#   output_dir: ./no_git_tmp
+# - channel_mode: exec_command
+#   hostname: 192.168.100.6
 #   username: cisco
 #   password: cisco
-#   cli_cmd: show ip interface brief
-# - hostname: 192.168.100.7
+#   cli_cmd:
+#     - show ip interface brief
+#   output_dir: ./no_git_tmp
+# - channel_mode: exec_command
+#   hostname: 192.168.100.7
 #   username: cisco
 #   password: cisco
-#   cli_cmd: show clock
-# - hostname: 192.168.100.8
+#   cli_cmd:
+#     - show clock
+#   output_dir: ./no_git_tmp
+# - channel_mode: exec_command
+#   hostname: 192.168.100.8
 #   username: cisco
 #   password: cisco
-#   cli_cmd: show ip route
-# - hostname: 192.168.100.9
+#   cli_cmd:
+#     - show ip route
+#   output_dir: ./no_git_tmp
+# - channel_mode: exec_command
+#   hostname: 192.168.100.9
 #   username: cisco
 #   password: cisco
-#   cli_cmd: show ip interface brief
-# - hostname: 192.168.100.10
+#   cli_cmd:
+#     - show ip interface brief
+#   output_dir: ./no_git_tmp
+# - channel_mode: exec_command
+#   hostname: 192.168.100.10
 #   username: cisco
 #   password: cisco
-#   cli_cmd: show ip route
+#   cli_cmd:
+#     - show ip route
+#   output_dir: ./no_git_tmp
 ...
