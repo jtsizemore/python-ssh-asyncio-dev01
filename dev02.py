@@ -79,8 +79,11 @@ def write_file(
             f.write(cli_output)
     elif isinstance(input_dict['cli_output'], list):
         print("list")
+        cli_output_list = [
+            i.decode('utf-8') for i in input_dict['cli_output']
+            ]
         with open(file_name, write_mode) as f:
-            f.writelines(cli_output.decode('utf-8'))
+            f.writelines(cli_output_list)
 
 
 # read yaml and convert to python obj

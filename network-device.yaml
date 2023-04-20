@@ -21,15 +21,15 @@
   cli_cmd:
     - show ip interface brief
   output_dir: ./no_git_tmp
-# - channel_mode: invoke_shell
-#   hostname: 192.168.100.4
-#   username: cisco
-#   password: cisco
-#   cli_cmd:
-#     - show clock
-#     - show ip route
-#     - show ip interface brief
-#   output_dir: ./no_git_tmp
+- channel_mode: invoke_shell
+  hostname: 192.168.100.4
+  username: cisco
+  password: cisco
+  cli_cmd:
+    - show clock
+    - show ip route
+    - show ip interface brief
+  output_dir: ./no_git_tmp
 # - channel_mode: invoke_shell
 #   hostname: 192.168.100.5
 #   username: cisco
