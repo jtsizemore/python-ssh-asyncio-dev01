@@ -31,6 +31,7 @@ def ssh_connect(input_dict: dict) -> bytes:
     #   - in case 'cli_cmd' list > 0, only take first index of 0
     if isinstance(input_dict['channel_mode'], str) and \
         input_dict['channel_mode'].lower() == 'exec_command':
+        # change this print statment to logging
         print("exec mode")
         stdin, stdout, stderr = \
             ssh_client.exec_command(input_dict['cli_cmd'][0])
@@ -45,18 +46,20 @@ def ssh_connect(input_dict: dict) -> bytes:
     #   - 'channel_mode' lower case equals 'invoke_shell'
     elif isinstance(input_dict['channel_mode'], str) and \
         input_dict['channel_mode'].lower() == 'invoke_shell':
+        # change this print statment to logging
         print("invoke shell")
         rx_bytes_list = []
         paramiko_ssh_channel = ssh_client.invoke_shell()
         if paramiko_ssh_channel.send_ready():
             paramiko_ssh_channel.send('\nterminal length 0\n')
+            time.sleep(1)
             for cmd in input_dict['cli_cmd']:
                 send_str = f'{str(cmd)}\n'
                 paramiko_ssh_channel.send(send_str)
-                time.sleep(0.5)
+                time.sleep(1)
                 if paramiko_ssh_channel.recv_ready():
                     while paramiko_ssh_channel.recv_ready():
-                        rx_bytes = paramiko_ssh_channel.recv(1024e6)
+                        rx_bytes = paramiko_ssh_channel.recv(2048e6)
                         rx_bytes_list.append(rx_bytes)
                     time.sleep(5)
             h = input_dict['hostname'].replace('.', '_')
@@ -73,11 +76,13 @@ def write_file(
     """
     file_name = f"{file_path}/{input_dict['hostname']}.txt"
     if isinstance(input_dict['cli_output'], bytes):
+        # change this print statment to logging
         print("bytes")
         cli_output = input_dict['cli_output'].decode('utf-8')
         with open(file_name, write_mode) as f:
             f.write(cli_output)
     elif isinstance(input_dict['cli_output'], list):
+        # change this print statment to logging
         print("list")
         cli_output_list = [
             i.decode('utf-8') for i in input_dict['cli_output']
@@ -93,7 +98,6 @@ def yaml_func(input_file: str, file_mode: str='r'):
     """
     with open(input_file, file_mode) as f:
         s = f.read()
-
     return yaml.safe_load(s)
 
 
@@ -122,7 +126,7 @@ if __name__ == '__main__':
 
     t_start1 = time.time()
 
-    l = yaml_func("network-device.yaml")
+    l = yaml_func(args.file)
 
     with concurrent.futures.ThreadPoolExecutor() as p:
         r = p.map(ssh_connect, l)
